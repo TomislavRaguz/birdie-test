@@ -9,6 +9,7 @@
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {
+    "start": "pm2-runtime start ./dist/index.js",
     "build": "rimraf dist && tsc",
     "format": "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
