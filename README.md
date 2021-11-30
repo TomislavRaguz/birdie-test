@@ -13,9 +13,11 @@ variations using data from the table.
 I chose to display mood, food intake and fluid intake in charts beacuse I felt those 
 are comparatively harder to have an overview of through more traditional channels than for eg medication
 compliance or alerts.
+
 ## Setup
 
 create a .env file in the backend directory using env.example as the template
+
 Then in the backend dir:
 ```
 npm run dev
