@@ -6,20 +6,12 @@ function aggregateEventValuesByDay(query, events) {
     if (!events.length)
         return [];
     const startDate = query.timeRangeStart
-        ? new Date(query.timeRangeStart)
+        ? (0, date_fns_1.parseISO)(query.timeRangeStart)
         : null;
-    const endDate = query.timeRangeEnd ? new Date(query.timeRangeEnd) : null;
+    const endDate = query.timeRangeEnd ? (0, date_fns_1.parseISO)(query.timeRangeEnd) : null;
     const fullEvents = parseBirdieEventsWithDate(events);
-    let domainStartDate = startDate ? (0, date_fns_1.startOfDay)(startDate) : null;
-    if (!domainStartDate) {
-        const minDate = fullEvents.reduce((minDate, event) => (0, date_fns_1.isBefore)(event.date, minDate) ? event.date : minDate, fullEvents[0].date);
-        domainStartDate = (0, date_fns_1.startOfDay)(minDate);
-    }
-    let domainEndDate = endDate ? (0, date_fns_1.startOfDay)(endDate) : null;
-    if (!domainEndDate) {
-        const maxDate = fullEvents.reduce((maxDate, event) => ((0, date_fns_1.isAfter)(event.date, maxDate) ? event.date : maxDate), fullEvents[0].date);
-        domainEndDate = (0, date_fns_1.startOfDay)(maxDate);
-    }
+    const domainStartDate = startDate ? startDate : fullEvents.reduce((minDate, event) => (0, date_fns_1.isBefore)(event.date, minDate) ? event.date : minDate, fullEvents[0].date);
+    const domainEndDate = endDate ? endDate : fullEvents.reduce((maxDate, event) => ((0, date_fns_1.isAfter)(event.date, maxDate) ? event.date : maxDate), fullEvents[0].date);
     const daysEvents = groupEventsByDay(fullEvents, {
         start: domainStartDate,
         end: domainEndDate,
@@ -84,21 +76,28 @@ function foodIntakeReducer(dayEvents) {
 }
 exports.foodIntakeReducer = foodIntakeReducer;
 function groupEventsByDay(events, domain) {
-    const daysEvents = (0, date_fns_1.eachDayOfInterval)(domain).map((day) => ({
-        day: (0, date_fns_1.startOfDay)(day),
-        events: [],
-    }));
-    events.forEach((event) => {
-        const diff = (0, date_fns_1.differenceInCalendarDays)(event.date, domain.start);
-        daysEvents[diff].events.push(event);
+    const intervals = {};
+    events.forEach(event => {
+        const intervalN = Math.floor((+event.date - +domain.start) / (1000 * 60 * 60 * 24));
+        if (!intervals[intervalN]) {
+            intervals[intervalN] = [event];
+        }
+        else {
+            intervals[intervalN].push(event);
+        }
     });
+    const daysEvents = [];
+    for (let [interval, events] of Object.entries(intervals)) {
+        const intervalStart = (0, date_fns_1.addDays)(domain.start, parseInt(interval));
+        daysEvents.push({ day: intervalStart, events });
+    }
     return daysEvents;
 }
 exports.groupEventsByDay = groupEventsByDay;
 function parseBirdieEventsWithDate(eventPayloads) {
     return eventPayloads.map(({ payload }) => {
         const obj = JSON.parse(payload);
-        obj.date = new Date(obj.timestamp);
+        obj.date = (0, date_fns_1.parseISO)(obj.timestamp);
         return obj;
     });
 }

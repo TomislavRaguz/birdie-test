@@ -1,5 +1,5 @@
 import { Paper, Typography, useTheme } from '@mui/material';
-import { format, startOfDay, endOfDay, set, isValid } from 'date-fns'
+import { format, startOfDay, endOfDay, set, isValid, parseISO } from 'date-fns'
 import { CartesianGrid, XAxis, YAxis, Tooltip, Scatter, ScatterChart, Legend } from "recharts";
 import { ErrorView, ResponsiveContainerWithLoader } from '../../components'
 import { DATE_FORMAT, DATE_TIME_FORMAT, TIME_FORMAT } from '../../lib';
@@ -26,9 +26,9 @@ export function FoodIntakeChart(props: {
   const snacks: Array<FoodIntakeDatapoint> = []
   if(aggregateQueryState.data) {
     aggregateQueryState.data.byDay.forEach(dayEvents => {
-      const date = new Date(dayEvents.date)
+      const date = parseISO(dayEvents.date)
       dayEvents.foodIntake.forEach(foodIntakeEvent => {
-        const milisecondOfDay = +new Date(foodIntakeEvent.timestamp) - +set(new Date(foodIntakeEvent.timestamp), { hours:0, seconds: 0 })
+        const milisecondOfDay = +parseISO(foodIntakeEvent.timestamp) - +set(parseISO(foodIntakeEvent.timestamp), { hours:0, seconds: 0 })
         const event = {
           date,
           milisecondOfDay,

@@ -3,7 +3,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { Button, ButtonGroup, Grid } from '@mui/material';
-import { isAfter, isBefore, sub, subDays } from 'date-fns';
+import { isAfter, isBefore, parseISO, sub, subDays } from 'date-fns';
 
 export interface DateRange {
   startDate?: Date | null, 
@@ -21,7 +21,7 @@ export function DateRangePicker(props: {
   
   const setRangeBeforeToday = (duration?: Duration) => () => {
     if(duration) {
-      const endDate = new Date(DATABASE_SNAPSHOT_AGE)
+      const endDate = parseISO(DATABASE_SNAPSHOT_AGE)
       const startDate = sub(endDate, duration)
       props.onChange({ startDate, endDate })
     } else {

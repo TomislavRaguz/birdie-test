@@ -3,7 +3,7 @@ import { createConnection } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 import { env } from '../../enviroment';
-console.log(appRoot)
+
 export async function typeORMConnectionLoader() {
   const connection = await createConnection({
     type: 'mysql',

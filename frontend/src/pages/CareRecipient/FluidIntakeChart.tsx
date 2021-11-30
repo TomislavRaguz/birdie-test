@@ -1,5 +1,6 @@
 import { Typography, useTheme } from '@mui/material';
-import { format, startOfDay, endOfDay, isValid } from 'date-fns'
+import { format, startOfDay, endOfDay, isValid, parseISO } from 'date-fns'
+import { addMinutes } from 'date-fns/esm';
 import { CartesianGrid, XAxis, YAxis, Tooltip, AreaChart, Area, Legend } from "recharts";
 import { ErrorView, ResponsiveContainerWithLoader } from '../../components'
 import { DATE_FORMAT } from '../../lib';
@@ -11,7 +12,8 @@ export function FluidIntakeChart(props: {
   endDate?: Date | null
 }) {
   const { careRecipientId, startDate, endDate } = props;
-  
+  const timezoneOffset = new Date().getTimezoneOffset()
+
   const theme = useTheme();
   
   const aggregateQueryState = useEventAggregatesQuery({
@@ -24,16 +26,16 @@ export function FluidIntakeChart(props: {
 
   let chartData: Array<FluidIntakeDatapoint> = []
   if(aggregateQueryState.data) {
-    chartData = aggregateQueryState.data.byDay.map(dayData => ({ date: new Date(dayData.date), ...dayData.fluidIntake }))
+    chartData = aggregateQueryState.data.byDay.map(dayData => ({ date: parseISO(dayData.date), ...dayData.fluidIntake }))
   }
 
   let domainStartDate = startDate ? startOfDay(startDate) : null;
   if(!domainStartDate && chartData.length) {
-    domainStartDate = new Date(chartData[0].date);
+    domainStartDate = chartData[0].date;
   }
   let domainEndDate = endDate ? startOfDay(endDate) : null;
   if(!domainEndDate && chartData.length) {
-    domainEndDate = new Date(chartData[chartData.length - 1].date);
+    domainEndDate = chartData[chartData.length - 1].date;
   }
 
   return (

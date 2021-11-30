@@ -45,7 +45,7 @@ export const { useEventsQuery, useEventAggregatesQuery } = extendedApi
 
 type EventAggregateValues = {
   byDay: Array<{
-    date: Date
+    date: string
     fluidIntake: {
         totalFluidIntake: number
         regularFluidIntake: number

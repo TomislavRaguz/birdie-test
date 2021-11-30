@@ -1,5 +1,5 @@
 import { Typography, useTheme } from '@mui/material';
-import { format, startOfDay, endOfDay, isValid } from 'date-fns'
+import { format, startOfDay, endOfDay, isValid, parseISO } from 'date-fns'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, Tooltip, AreaChart, Area, BarChart, Legend, Bar } from "recharts";
 import { ErrorView, ResponsiveContainerWithLoader } from '../../components'
 import { DATE_FORMAT } from '../../lib';
@@ -24,17 +24,17 @@ export function MoodChart(props: {
 
   let chartData: Array<MoodChartDatapoint> = []
   if(aggregateQueryState.data) {
-    const moodData = aggregateQueryState.data.byDay.map(dayData => ({ date: new Date(dayData.date), ...dayData.mood }))
+    const moodData = aggregateQueryState.data.byDay.map(dayData => ({ date: parseISO(dayData.date), ...dayData.mood }))
     chartData = moodData;
   }
 
   let domainStartDate = startDate ? startOfDay(startDate) : null;
   if(!domainStartDate && chartData.length) {
-    domainStartDate = new Date(chartData[0].date);
+    domainStartDate = chartData[0].date;
   }
   let domainEndDate = endDate ? startOfDay(endDate) : null;
   if(!domainEndDate && chartData.length) {
-    domainEndDate = new Date(chartData[chartData.length - 1].date);
+    domainEndDate = chartData[chartData.length - 1].date;
   }
 
   return (

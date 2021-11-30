@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { DateRangePicker } from '.'
-import { addDays, subDays } from 'date-fns'
+import { addDays, parseISO, subDays } from 'date-fns'
 
 describe('dateRangePicker', () => {
   it('renders without an error', () => {
@@ -18,7 +18,7 @@ describe('dateRangePicker', () => {
 
     render(
       <DateRangePicker 
-        value={{ startDate: new Date('2018-01-01T00:00:00.000Z'), endDate: new Date('2018-01-03T00:00:00.000Z') }}
+        value={{ startDate:parseISO('2018-01-01T00:00:00.000Z'), endDate: parseISO('2018-01-03T00:00:00.000Z') }}
         onChange={onChangeMock}
       />
     )
@@ -28,14 +28,14 @@ describe('dateRangePicker', () => {
     fireEvent.click(screen.getByLabelText('Jan 2, 2018'));
     
     expect(onChangeMock).toHaveBeenCalledWith({
-      startDate: new Date('2018-01-02T00:00:00.000Z'),
-      endDate: new Date('2018-01-03T00:00:00.000Z')
+      startDate: parseISO('2018-01-02T00:00:00.000Z'),
+      endDate: parseISO('2018-01-03T00:00:00.000Z')
     })
 
   })
 
   it('properly disables the dates when maxDate or minDate are provided', async () => {
-    const referenceDate = new Date('2018-01-15T00:00:00.000Z')
+    const referenceDate = parseISO('2018-01-15T00:00:00.000Z')
 
     render(
       <DateRangePicker 
@@ -54,7 +54,7 @@ describe('dateRangePicker', () => {
   })
   
   it('calls the callback with a null endDate if the selected date is before the current endDate', async () => {
-    const referenceDate = new Date('2018-01-15T00:00:00.000Z')
+    const referenceDate = parseISO('2018-01-15T00:00:00.000Z')
     const onChangeMock = jest.fn();
 
     render(
@@ -68,7 +68,7 @@ describe('dateRangePicker', () => {
     await waitFor(() => screen.getByRole('dialog'));
     fireEvent.click(screen.getByLabelText('Jan 20, 2018'));
     expect(onChangeMock).toHaveBeenCalledWith({
-      startDate: new Date('2018-01-20T00:00:00.000Z'),
+      startDate: parseISO('2018-01-20T00:00:00.000Z'),
       endDate: null
     })
     

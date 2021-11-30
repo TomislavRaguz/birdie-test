@@ -1,6 +1,6 @@
 import { Autocomplete, Container, TextField,  Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { subDays } from "date-fns";
+import { parseISO, subDays } from "date-fns";
 import { useCallback, useState } from "react";
 import { useRouteMatch, } from "react-router";
 import debounce from 'lodash.debounce'
@@ -14,7 +14,7 @@ const TABLE_TYPES = ["Mood", "Hydration", "Meals", "All"] as const;
 const DATABASE_SNAPSHOT_AGE = '2019-05-12T22:06:34+01:00'
 
 export function CareRecipientPage() {
-  const databaseSnapshotAge = new Date(DATABASE_SNAPSHOT_AGE) //in a realistic situation we would just call Date constructor without parameters here
+  const databaseSnapshotAge = parseISO(DATABASE_SNAPSHOT_AGE) //in a realistic situation we would just call Date constructor without parameters here
   const [dateRange, setDateRange] = useState({ 
     startDate: subDays(databaseSnapshotAge, 7),
     endDate: databaseSnapshotAge

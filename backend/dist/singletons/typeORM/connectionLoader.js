@@ -5,7 +5,6 @@ const appRoot = require("app-root-path");
 const typeorm_1 = require("typeorm");
 const typeorm_naming_strategies_1 = require("typeorm-naming-strategies");
 const enviroment_1 = require("../../enviroment");
-console.log(appRoot);
 async function typeORMConnectionLoader() {
     const connection = await (0, typeorm_1.createConnection)({
         type: 'mysql',
