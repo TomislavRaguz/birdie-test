@@ -4,7 +4,7 @@
   "description": "We need a root package.json beacuse it is the only way supported by heroku.",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd backend && npm install && npm run build",
+    "postinstall": "cd backend && npm install",
     "start": "cd backend && npm start"
   },
   "author": "",
