@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.env = void 0;
 const dotenv = require("dotenv");
+const { NODE_ENV } = process.env;
 const result = dotenv.config();
-if (result.error) {
+if (result.error && NODE_ENV !== 'production') {
     throw result.error;
 }
 const logLevels = ['trace', 'debug', 'info', 'warn', 'error', 'fatal'];
