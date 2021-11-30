@@ -26,7 +26,7 @@ In the frontend dir:
 ```
 npm start
 ```
-If you backend is not listening on port 8080 you need to update the proxy field in the frontend package.json
+If you backend is not listening on port 8080 you will need to update the proxy field in the frontend package.json
 
 ## Deployment
 
