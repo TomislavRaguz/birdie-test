@@ -8,5 +8,8 @@
     "start": "cd backend && ./node_modules/.bin/pm2-runtime start ./dist/index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "14.x"
+  }
 }
