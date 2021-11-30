@@ -13,6 +13,19 @@ variations using data from the table.
 I chose to display mood, food intake and fluid intake in charts beacuse I felt those 
 are comparatively harder to have an overview of through more traditional channels than for eg medication
 compliance or alerts.
+## Setup
+
+create a .env file in the backend directory using env.example as the template
+Then in the backend dir:
+```
+npm run dev
+```
+In the frontend dir:
+```
+npm start
+```
+If you backend is not listening on port 8080 you need to update the proxy field in the frontend package.json
+
 ## Deployment
 
 For deployment I chose to use Heroku as recommended in 
