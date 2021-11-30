@@ -17,5 +17,5 @@ compliance or alerts.
 
 For deployment I chose to use Heroku as recommended in 
 the assignment readme. A classic reverse proxy Nginx setup
-seemed overkill so I went for a simple approach where the frontend bundle is 
-built into the static and served for all non /api routes from a single node process.
+seemed overkill so I went for a pragmatic approach where the frontend and backend are served from the same process. Backend routes are prefixed by /api while other routes
+serve public files and index.html which is also very easy to setup with CRA inbuilt proxy for development. The frontend bundle is simply built into the static folder.
