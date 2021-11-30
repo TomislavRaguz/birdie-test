@@ -10,7 +10,7 @@
   "types": "dist/index",
   "scripts": {
     "start": "./node_modules/.bin/pm2-runtime start ./dist/index.js",
-    "build": "DONT_SPLICE=thatprefix ./backend/node_modules/.bin/rimraf dist && ./backend/node_modules/.bin/tsc",
+    "build": "DONT_SPLICE=thatprefix ./node_modules/.bin/rimraff dist && ./node_modules/.bin/tsc",
     "format": "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "test": "jest",
