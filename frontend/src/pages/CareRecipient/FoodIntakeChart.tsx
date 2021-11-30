@@ -45,7 +45,7 @@ export function FoodIntakeChart(props: {
   if(!domainStartDate && meals.length) {
     domainStartDate = new Date(meals[0].date);
   }
-  let domainEndDate = endDate ? startOfDay(endDate) : null;
+  let domainEndDate = endDate ? endOfDay(endDate) : null;
   if(!domainEndDate && meals.length) {
     domainEndDate = new Date(meals[meals.length - 1].date);
   }

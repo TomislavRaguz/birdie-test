@@ -32,7 +32,7 @@ export function MoodChart(props: {
   if(!domainStartDate && chartData.length) {
     domainStartDate = new Date(chartData[0].date);
   }
-  let domainEndDate = endDate ? startOfDay(endDate) : null;
+  let domainEndDate = endDate ? endOfDay(endDate) : null;
   if(!domainEndDate && chartData.length) {
     domainEndDate = new Date(chartData[chartData.length - 1].date);
   }
